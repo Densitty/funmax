@@ -59,7 +59,7 @@ jobs:
     executor: app-executor
     steps:
       - checkout
-      - *show-current-branch
+      - *show-current-branch-name
       - *install-aws-cli
       - *build-project
       - run:
@@ -79,7 +79,7 @@ jobs:
     executor: app-executor
     steps:
       - checkout
-      - *show-current-branch
+      - *show-current-branch-name
       - *Install-aws-cli
       - *build-project
       - run:
