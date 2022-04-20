@@ -107,7 +107,7 @@ jobs:
   notify-slack-error:
     executor: slack-executor
     steps:
-      - run: echo "${SLACK_ACCESS_TOKEN}"
+      - run: echo ${SLACK_ACCESS_TOKEN}
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -116,7 +116,7 @@ jobs:
   notify-slack-pass:
     executor: slack-executor
     steps:
-      - run: echo "${SLACK_ACCESS_TOKEN}"
+      - run: echo ${SLACK_ACCESS_TOKEN
       - slack/notify:
           event: pass
           template: basic_success_1
