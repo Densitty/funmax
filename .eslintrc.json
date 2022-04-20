@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["plugin:react/recommended", "standard"],
+  "extends": ["plugin:react/recommended", "standard", "pretier/recommended"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -20,7 +20,7 @@
       "version": "16.0"
     }
   },
-  "plugins": ["react"],
+  "plugins": ["react", "prettier"],
   "rules": {
     "semi": [2, "always"],
     "space-before-function-paren": [
@@ -29,6 +29,6 @@
     ],
     "camelcase": 0,
     "no-return-assign": 0,
-    "quotes": "off"
+    "prettier/prettier": "error"
   }
 }
