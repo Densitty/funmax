@@ -5,6 +5,10 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.1
 
+description:
+  - SLACK_ACCESS_TOKEN: $SLACK_ACCESS_TOKEN
+  - SLACK_DEFAULT_CHANNEL: $SLACK_DEFAULT_CHANNEL
+
 commands:
   notify_slack_error:
     steps:
@@ -119,8 +123,6 @@ jobs:
 
   notify-slack-error:
     executor: slack-executor
-    environment:
-      access_token: $SLACK_ACCESS_TOKEN
     steps:
       - run: echo $SLACK_ACCESS_TOKEN
       - slack/notify:
@@ -130,8 +132,6 @@ jobs:
 
   notify-slack-pass:
     executor: slack-executor
-    environment:
-      access_token: $SLACK_ACCESS_TOKEN
     steps:
       - run: echo $SLACK_ACCESS_TOKEN
       - slack/notify:
