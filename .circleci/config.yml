@@ -218,15 +218,15 @@ workflows:
                 - development
                 - staging
                 - main
-      - notify-slack-pass:
-          requires:
-            - deploy-to-aws-cloudfront
-          filters:
-            branches:
-              only:
-                - development
-                - staging
-                - main
+      # - notify-slack-pass:
+      #     requires:
+      #       - deploy-to-aws-cloudfront
+      #     filters:
+      #       branches:
+      #         only:
+      #           - development
+      #           - staging
+      #           - main
       # - notify-slack-error:
       #     requires:
             # - deploy-to-aws-cloudfront
