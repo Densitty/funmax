@@ -117,13 +117,13 @@ jobs:
           name: Run prettier check
           command: npm run prettier:check
 
-  # notify-slack-error:
-  #   executor: slack-executor
-  #   steps:
-  #     - run: echo $SLACK_ACCESS_TOKEN
-  #     - slack/notify:
-  #         event: fail
-  #         template: basic_fail_1
+  notify-slack-error:
+    executor: slack-executor
+    steps:
+      - run: echo $SLACK_ACCESS_TOKEN
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
           # message: "${CIRCLE_BRANCH} branch deployment to aws s3 and cloudfront is complete"
 
   # notify-slack-pass:
@@ -175,9 +175,6 @@ jobs:
               aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths /\*
             fi
 
-      - notify_slack_error
-      - notify_slack_pass
-
 workflows:
   build_and_deploy:
     jobs:
@@ -218,18 +215,18 @@ workflows:
                 - development
                 - staging
                 - main
-      # - notify-slack-pass:
-      #     requires:
-      #       - deploy-to-aws-cloudfront
-      #     filters:
-      #       branches:
-      #         only:
-      #           - development
-      #           - staging
-      #           - main
-      # - notify-slack-error:
-      #     requires:
-            # - deploy-to-aws-cloudfront
+      - notify-slack-pass:
+          requires:
+            - deploy-to-aws-cloudfront
+          filters:
+            branches:
+              only:
+                - development
+                - staging
+                - main
+      - notify-slack-error:
+          requires:
+            - deploy-to-aws-cloudfront
           filters:
             branches:
               only:
