@@ -119,6 +119,7 @@ jobs:
 
   notify-slack-error:
     executor: slack-executor
+    SLACK_ACCESS_TOKEN: $SLACK_ACCESS_TOKEN
     steps:
       - run: echo $SLACK_ACCESS_TOKEN
       - slack/notify:
@@ -126,13 +127,14 @@ jobs:
           template: basic_fail_1
           # message: "${CIRCLE_BRANCH} branch deployment to aws s3 and cloudfront is complete"
 
-  # notify-slack-pass:
-  #   executor: slack-executor
-  #   steps:
-  #     - run: echo $SLACK_ACCESS_TOKEN
-  #     - slack/notify:
-  #         event: pass
-  #         template: basic_success_1
+  notify-slack-pass:
+    executor: slack-executor
+    SLACK_ACCESS_TOKEN: $SLACK_ACCESS_TOKEN
+    steps:
+      - run: echo $SLACK_ACCESS_TOKEN
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 
   deploy-to-aws-s3:
     executor: app-executor
