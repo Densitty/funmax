@@ -1,11 +1,15 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine.
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
+
 executors:
   app-executor: # refactoring file to use an executor for recurring codes
     docker:
       - image: cimg/node:16.13.1
     working_directory: ~/repo
+  slack-executor:
+    docker:
+      - image: 'cimg/base:stable'
 
 # creating aliases (reusable variables) for repeating parts
 aliases:
@@ -53,7 +57,27 @@ jobs:
       - *show-current-branch-name
       - *restore-cache
       - *install-dependencies
-      - *save-cache
+      - *save-cache # save the node_modules
+
+  linting:
+    executor: app-executor
+    steps:
+      - checkout
+      - *show-current-branch-name
+      - *restore-cache
+      - run:
+          name: Run linting
+          command: npm run lint
+
+  prettier:
+    executor: app-executor
+    steps:
+      - checkout
+      - *show-current-branch-name
+      - *restore-cache
+      - run:
+          name: Run prettier check
+          command: npm run prettier:check
 
   deploy-to-aws-s3:
     executor: app-executor
@@ -100,9 +124,27 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - deploy-to-aws-s3:
+      - linting:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - development
+                - staging
+                - main
+      - prettier:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - development
+                - staging
+                - main
+      - deploy-to-aws-s3:
+          requires:
+            - prettier
           filters:
             branches:
               only:
