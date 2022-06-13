@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log('making the overflow on body hidden');
+    // console.log('making the overflow on body hidden');
     if (navClass) {
       document.body.classList.add('header-nav-open');
     } else {
