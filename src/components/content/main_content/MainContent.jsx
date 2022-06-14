@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PaginateMovies from '../paginate_movies/PaginateMovies';
 import Slideshow from '../slideshow/Slideshow';
 import './MainContent.scss';
 
@@ -42,12 +43,39 @@ const MainContent = () => {
     }
   ];
 
+  // eslint-disable-next-line no-unused-vars
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 10;
+
+  const paginate = (type) => {
+    console.log(type);
+    if (type === 'prev' && currentPage > 1) {
+      // decrement page
+      setCurrentPage((prev) => prev - 1);
+    } else {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const myProps = {
+    currentPage,
+    totalPages,
+    paginate
+  };
+
   return (
     <div className="main__content">
       <Slideshow images={images} autoSlide={true} />
       <section className="movie__grid">
         <div className="movie__grid__type">Now Playing</div>
-        <div className="movie__grid__paginate">Paginate</div>
+        <div className="movie__grid__paginate">
+          <PaginateMovies
+            {...myProps}
+            // currentPage={currentPage}
+            // totalPages={totalPages}
+            // paginate={paginate}
+          />
+        </div>
       </section>
       {/* movie display component */}
     </div>
