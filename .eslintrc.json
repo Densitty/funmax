@@ -29,6 +29,7 @@
     ],
     "camelcase": 0,
     "no-return-assign": 0,
+    "multiline-ternary": "off",
     "prettier/prettier": [
       "error",
       {
