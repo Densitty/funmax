@@ -14,8 +14,16 @@ const Slideshow = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    // to immediately display the first image to the slideshow as the data arrive from the API
+    setImageState({
+      ...imageState,
+      slideIndex: currentIndex,
+      slideImage: images[currentIndex]
+    });
+
     if (autoSlide) {
       let index = currentIndex;
+
       const slider = setInterval(() => {
         if (currentIndex === images.length - 1) {
           index = 0;
@@ -33,7 +41,7 @@ const Slideshow = (props) => {
 
       return () => clearInterval(slider);
     }
-  }, [currentIndex]);
+  }, [currentIndex, images]);
 
   const { slideImage, slideIndex } = imageState;
   // const currentSlideIndex = 0;
@@ -58,6 +66,7 @@ const Slideshow = (props) => {
     }
 
     setCurrentIndex(index);
+
     setImageState((prevState) => ({
       ...prevState,
       slideImage: images[index],
@@ -89,7 +98,6 @@ const Slideshow = (props) => {
     // const { currentSlide } = props;
     const listIndicators = images.map((img, idx) => {
       const btnClasses =
-        // eslint-disable-next-line react/prop-types
         idx === props.currentSlide
           ? 'slider-navButton slider-navButton--active'
           : 'slider-navButton';
@@ -106,12 +114,12 @@ const Slideshow = (props) => {
           <div
             className="slider-image"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${slideImage.image})`
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(${slideImage.image})`
             }}
           ></div>
         )}
       </div>
-      {!autoSlide && <RenderArrows />}
+      {autoSlide && <RenderArrows />}
 
       <Indicators currentSlide={slideIndex} />
     </div>
@@ -120,7 +128,8 @@ const Slideshow = (props) => {
 
 Slideshow.propTypes = {
   images: PropTypes.array.isRequired,
-  autoSlide: PropTypes.bool.isRequired
+  autoSlide: PropTypes.bool.isRequired,
+  currentSlide: PropTypes.number
 };
 
 export default Slideshow;

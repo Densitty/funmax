@@ -1,65 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { image_url } from '../../../misc/movie_api';
+import {
+  incrementResponsePageNumber,
+  loadMovies
+} from '../../../redux/actions/movies';
 import MoviesGrid from '../movies_grid/MoviesGrid';
 import PaginateMovies from '../paginate_movies/PaginateMovies';
 import Slideshow from '../slideshow/Slideshow';
 import './MainContent.scss';
 
 const MainContent = () => {
-  const images = [
-    {
-      id: 1,
-      image:
-        'https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg',
-      name: 'maria ferguson',
-      title: 'office manager',
-      quote:
-        'Fingerstache umami squid, kinfolk subway tile selvage tumblr man braid viral kombucha gentrify fanny pack raclette pok pok mustache.',
-      rating: 8.3
-    },
-    {
-      id: 2,
-      image:
-        'https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883417/person-3_ipa0mj.jpg',
-      name: 'john doe',
-      title: 'regular guy',
-      quote:
-        'Gastropub sustainable tousled prism occupy. Viral XOXO roof party brunch actually, chambray listicle microdosing put a bird on it paleo subway tile squid umami.',
-      rating: 7.5
-    },
-    {
-      id: 3,
-      image:
-        'https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959121/person-1_aufeoq.jpg',
-      name: 'peter smith',
-      title: 'product designer',
-      quote:
-        'Drinking vinegar polaroid street art echo park, actually semiotics next level butcher master cleanse hammock flexitarian ethical paleo.',
-      rating: 9.3
-    },
-    {
-      id: 4,
-      image:
-        'https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883334/person-1_rfzshl.jpg',
-      name: 'susan andersen',
-      title: 'the boss',
-      quote:
-        'Marfa af yr 3 wolf moon kogi, readymade distillery asymmetrical seitan kale chips fingerstache cloud bread mustache twee messenger bag. ',
-      rating: 5.3
-    }
-  ];
+  const dispatch = useDispatch();
+  const { movies_list, movie_type, page, totalPages } = useSelector(
+    (state) => state.movies
+  );
 
-  // eslint-disable-next-line no-unused-vars
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
+  const [currentPage, setCurrentPage] = useState(page);
+  const [movieImages, setMovieImages] = useState([]);
+
+  const HEADER_TYPE = {
+    now_playing: 'Now Playing',
+    popular: 'Popular',
+    top_rated: 'Top Rated',
+    upcoming: 'Upcoming'
+  };
+
+  // sort the movies randomly and get the 5 out of them
+  const randomMovies = movies_list
+    .sort(() => Math.random() - Math.random())
+    .slice(0, 5);
+
+  useEffect(() => {
+    if (randomMovies.length) {
+      const movie_images = [
+        {
+          id: 1,
+          image: `${image_url}/${randomMovies[0].poster_path}`
+        },
+        {
+          id: 2,
+          image: `${image_url}/${randomMovies[1].poster_path}`
+        },
+        {
+          id: 3,
+          image: `${image_url}/${randomMovies[2].poster_path}`
+        },
+        {
+          id: 4,
+          image: `${image_url}/${randomMovies[3].poster_path}`
+        },
+        {
+          id: 5,
+          image: `${image_url}/${randomMovies[4].poster_path}`
+        }
+      ];
+
+      setMovieImages(movie_images);
+    }
+  }, []);
+
+  useEffect(() => {
+    setCurrentPage(page);
+  }, [page, totalPages]);
 
   const paginate = (type) => {
-    console.log(type);
-    if (type === 'prev' && currentPage > 1) {
-      // decrement page
-      setCurrentPage((prev) => prev - 1);
+    let pageNumber = currentPage;
+    if (type === 'prev' && currentPage >= 1) {
+      pageNumber -= 1;
     } else {
-      setCurrentPage((prev) => prev + 1);
+      pageNumber += 1;
     }
+    setCurrentPage(pageNumber);
+    dispatch(incrementResponsePageNumber(pageNumber, totalPages));
+    dispatch(loadMovies(movie_type, pageNumber));
   };
 
   const myProps = {
@@ -70,9 +85,9 @@ const MainContent = () => {
 
   return (
     <div className="main__content">
-      <Slideshow images={images} autoSlide={true} />
+      <Slideshow images={movieImages} autoSlide={true} />
       <section className="movie__grid">
-        <div className="movie__grid__type">Now Playing</div>
+        <div className="movie__grid__type">{HEADER_TYPE[movie_type]}</div>
         <div className="movie__grid__paginate">
           <PaginateMovies
             {...myProps}
@@ -83,7 +98,7 @@ const MainContent = () => {
         </div>
       </section>
       {/* movie display component */}
-      <MoviesGrid images={images} />
+      <MoviesGrid />
     </div>
   );
 };
