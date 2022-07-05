@@ -1,23 +1,24 @@
-import React /* useEffect, useState  */ from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './PaginateMovies.scss';
 
 const PaginateMovies = (props) => {
   const { currentPage, paginate, totalPages } = props;
 
-  // const [page, setPage] = useState();
-  // const [totalPageNumber, setTotalPageNumber] = useState();
+  console.log(props);
+  const [page, setPage] = useState();
+  const [totalPageNumber, setTotalPageNumber] = useState();
 
-  // useEffect(() => {
-  //   setPage(currentPage);
-  //   setTotalPageNumber(totalPages);
-  // }, [currentPage, totalPages]);
+  useEffect(() => {
+    setPage(currentPage);
+    setTotalPageNumber(totalPages);
+  }, [currentPage, totalPages]);
 
   return (
     <>
       <span className="page__count">
-        {/* {page} - {totalPageNumber} */}
-        {currentPage} - {totalPages}
+        {page} - {totalPageNumber}
+        {/* {currentPage} - {totalPages} */}
       </span>
 
       <button

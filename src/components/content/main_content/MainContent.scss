@@ -10,6 +10,7 @@
   display: grid;
   grid-template-areas: 'movie-type . paginate';
   grid-template-columns: max-content 1fr max-content;
+  align-items: center;
   grid-template-rows: 1fr;
   margin-bottom: 3rem;
   font-size: 18px;
@@ -20,6 +21,7 @@
     grid-area: movie-type;
     text-align: left;
     padding: 8px 25px;
+    align-self: center;
   }
 
   &__paginate {

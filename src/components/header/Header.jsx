@@ -1,25 +1,50 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import HEADER_LIST from '../../misc/header_list';
-// import logo from '../../logo.svg';
+import {
+  loadMovies,
+  setMovieType,
+  incrementResponsePageNumber
+} from '../../redux/actions/movies';
 import './header.scss';
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const {
+    // movie_type: movieType,
+    page,
+    totalPages
+  } = useSelector((state) => state.movies);
+  // console.log(movieType, page, totalPages);
+
+  // const { movies_list, page, totalPages } = moviesData;
+
   const [menu, setMenu] = useState(false);
   const [navClass, setNavClass] = useState(false);
+  const [type, setType] = useState('now_playing');
 
   const toggle = () => {
     setMenu(!menu);
     setNavClass(!navClass);
   };
 
+  const changeMovieTypeUrl = (type) => {
+    setType(type);
+    dispatch(setMovieType(type));
+  };
+
   useEffect(() => {
-    // console.log('making the overflow on body hidden');
+    dispatch(loadMovies(type, page));
+    dispatch(incrementResponsePageNumber(page, totalPages));
+  }, [type]);
+
+  useEffect(() => {
     if (navClass) {
       document.body.classList.add('header-nav-open');
     } else {
       document.body.classList.remove('header-nav-open');
     }
-  }, [navClass]);
+  }, []);
 
   return (
     <div className="header">
@@ -50,9 +75,14 @@ const Header = () => {
             <li className="header-nav-item">New Movies</li> */}
             {HEADER_LIST.map((list) => {
               return (
-                <li key={list.id} className="header-nav-item">
+                <li
+                  key={list.id}
+                  className={`header-nav-item ${
+                    list.type === type ? 'active-item' : ''
+                  }`}
+                  onClick={() => changeMovieTypeUrl(list.type)}
+                >
                   <span className="header-list-name">{list.icon}</span>
-                  {/* &nbsp; */}
                   <span className="header-list-name">{list.name}</span>
                 </li>
               );

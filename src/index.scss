@@ -6,14 +6,15 @@
   box-sizing: border-box;
 }
 
-// html {
-//   font-size: 62.5%;
-// }
+html {
+  // font-size: 62.5%;
+}
 
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #020e18;
   color: #fff;
+  overflow-y: visible;
 }
 
 ul,
