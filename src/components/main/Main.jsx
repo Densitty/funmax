@@ -6,6 +6,7 @@ import {
   incrementResponsePageNumber
 } from '../../redux/actions/movies';
 import MainContent from '../content/main_content/MainContent';
+import Search from '../content/search_result/Search';
 import Spinner from '../spinner/Spinner';
 import './Main.scss';
 
@@ -15,7 +16,7 @@ const Main = () => {
 
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies);
-  const { page, totalPages, movie_type } = movies;
+  const { page, totalPages, movie_type, searchResult } = movies;
 
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(page);
@@ -54,7 +55,18 @@ const Main = () => {
 
   return (
     <div className="main" ref={mainContainer} onScroll={handleScroll}>
-      {loading ? <Spinner /> : <MainContent />}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          {searchResult && searchResult.length === 0 ? (
+            <MainContent />
+          ) : (
+            <Search />
+          )}
+        </>
+      )}
+      {/* {loading ? <Spinner /> : <MainContent />} */}
 
       <div ref={pageEnd}></div>
     </div>

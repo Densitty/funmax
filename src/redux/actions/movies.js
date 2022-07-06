@@ -3,9 +3,11 @@ import {
   LOAD_ERROR,
   RESPONSE_PAGE,
   LOAD_MORE_MOVIES,
-  MOVIE_TYPE
+  MOVIE_TYPE,
+  MOVIE_QUERIED_FOR,
+  SEARCH_RESULT
 } from '../actionTypes';
-import { fetch_movie } from '../../misc/movie_api';
+import { fetch_movie, search_movie } from '../../misc/movie_api';
 
 export const loadMovies = (category, pageNumber) => async (dispatch) => {
   try {
@@ -59,6 +61,26 @@ export const loadMoreMovies = (category, pageNumber) => async (dispatch) => {
 
 export const setMovieType = (type) => async (dispatch) => {
   dispatch({ type: MOVIE_TYPE, payload: type });
+};
+
+export const searchMovie = (query) => async (dispatch) => {
+  dispatch({ type: MOVIE_QUERIED_FOR, payload: query.trim().toLowerCase() });
+};
+
+export const searchResult = (query) => async (dispatch) => {
+  try {
+    if (query) {
+      const res = await search_movie(query);
+      const { results } = res.data;
+      dispatch({ type: SEARCH_RESULT, payload: results });
+    } else {
+      dispatch({ type: SEARCH_RESULT, payload: [] });
+    }
+  } catch (err) {
+    if (err.response) {
+      dispatch({ type: LOAD_ERROR, payload: err.message });
+    }
+  }
 };
 
 export const incrementResponsePageNumber =

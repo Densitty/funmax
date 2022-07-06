@@ -4,7 +4,9 @@ import HEADER_LIST from '../../misc/header_list';
 import {
   loadMovies,
   setMovieType,
-  incrementResponsePageNumber
+  incrementResponsePageNumber,
+  searchResult,
+  searchMovie
 } from '../../redux/actions/movies';
 import './header.scss';
 
@@ -22,6 +24,7 @@ const Header = () => {
   const [menu, setMenu] = useState(false);
   const [navClass, setNavClass] = useState(false);
   const [type, setType] = useState('now_playing');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const toggle = () => {
     setMenu(!menu);
@@ -45,6 +48,12 @@ const Header = () => {
       document.body.classList.remove('header-nav-open');
     }
   }, []);
+
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+    dispatch(searchResult(e.target.value));
+    dispatch(searchMovie(e.target.value));
+  };
 
   return (
     <div className="header">
@@ -91,6 +100,8 @@ const Header = () => {
               type="text"
               className="search-input"
               placeholder="search for a movies"
+              onChange={handleChange}
+              value={searchTerm}
             />
           </ul>
         </div>
