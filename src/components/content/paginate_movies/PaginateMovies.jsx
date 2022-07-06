@@ -5,7 +5,6 @@ import './PaginateMovies.scss';
 const PaginateMovies = (props) => {
   const { currentPage, paginate, totalPages } = props;
 
-  console.log(props);
   const [page, setPage] = useState();
   const [totalPageNumber, setTotalPageNumber] = useState();
 

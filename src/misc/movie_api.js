@@ -15,3 +15,9 @@ export const fetch_movie = async (category_type, pageNumber) => {
     `${base_url}/movie/${category_type}?api_key=${api_key}&lang=en-US&page=${pageNumber}`
   );
 };
+
+export const search_movie = async (movie) => {
+  return await axios.get(
+    `${base_url}/search/movie?api_key=${api_key}&query=${movie}&language=en-US&include_adult=false`
+  );
+};
