@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import HEADER_LIST from '../../misc/header_list';
 import {
   loadMovies,
@@ -25,6 +26,8 @@ const Header = () => {
   const [navClass, setNavClass] = useState(false);
   const [type, setType] = useState('now_playing');
   const [searchTerm, setSearchTerm] = useState('');
+
+  // const navigateHome = () => history.push('/');
 
   const toggle = () => {
     setMenu(!menu);
@@ -66,7 +69,9 @@ const Header = () => {
               alt="logo"
               style={{ width: '80px', height: '60px' }}
             /> */}
-            <h1>Funmax</h1>
+            <Link to="/">
+              <h1>Funmax</h1>
+            </Link>
           </div>
 
           <div

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { /* useDispatch, */ useSelector } from 'react-redux';
 import Rating from '../rating/Rating';
 import './MoviesGrid.scss';
@@ -16,10 +17,15 @@ const MoviesGrid = () => {
     setMovieData(movies_list);
   }, [movies_list]);
 
+  const formatTitle = (title) => {
+    return title.toLowerCase().replace(/ /g, '-');
+  };
+
   return (
     <>
       <section className="movies__grid">
         {movieData.map((movie, index) => {
+          console.log(movie);
           return (
             <article key={index}>
               <div
@@ -31,7 +37,13 @@ const MoviesGrid = () => {
                 alt="placeholder"
               >
                 <div className="movies__grid__cell__btn">
-                  <button>Read More</button>
+                  <button>
+                    <Link
+                      to={`/${movie.id}/${formatTitle(movie.title)}/details`}
+                    >
+                      Read More
+                    </Link>
+                  </button>
                 </div>
                 <div className="movies__grid__cell__details">
                   <span className="movies__grid__cell__details__title">
