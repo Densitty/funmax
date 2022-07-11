@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { /* useDispatch, */ useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Rating from '../rating/Rating';
 import './Search.scss';
 import '../movies_grid/MoviesGrid.scss';
@@ -16,6 +17,10 @@ const Search = () => {
   useEffect(() => {
     setMovieData(searchResult);
   }, [searchResult]);
+
+  const formatTitle = (title) => {
+    return title.toLowerCase().replace(/ /g, '-');
+  };
 
   return (
     <div className="search__keyword">
@@ -38,7 +43,15 @@ const Search = () => {
                     alt="placeholder"
                   >
                     <div className="movies__grid__cell__btn">
-                      <button>Read More</button>
+                      <button>
+                        <Link
+                          to={`/${movie.id}/${formatTitle(
+                            movie.title
+                          )}/details`}
+                        >
+                          Read More
+                        </Link>
+                      </button>
                     </div>
                     <div className="movies__grid__cell__details">
                       <span className="movies__grid__cell__details__title">
