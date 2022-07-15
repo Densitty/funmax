@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HEADER_LIST from '../../misc/header_list';
 import {
   loadMovies,
   setMovieType,
   incrementResponsePageNumber,
   searchResult,
-  searchMovie
+  searchMovie,
+  clearMovieDetails
 } from '../../redux/actions/movies';
 import './header.scss';
 
 const Header = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const {
     // movie_type: movieType,
@@ -35,6 +39,13 @@ const Header = () => {
   };
 
   const changeMovieTypeUrl = (type) => {
+    // if the current path is not exactly "/",
+    if (location.pathname !== '/') {
+      // 1. clear the movieDetails state and set to default value ([])
+      dispatch(clearMovieDetails());
+      // 2. navigate back to home page
+      navigate('/');
+    }
     setType(type);
     dispatch(setMovieType(type));
   };
@@ -58,12 +69,16 @@ const Header = () => {
     dispatch(searchMovie(e.target.value));
   };
 
+  const handleClick = () => {
+    dispatch(clearMovieDetails());
+  };
+
   return (
     <div className="header">
       <header className="header-nav-wrapper">
         <div className="header-bar"></div>
         <div className="header-navbar">
-          <div className="header-image">
+          <div className="header-image" onClick={handleClick}>
             {/* <img
               src={logo}
               alt="logo"
@@ -101,13 +116,16 @@ const Header = () => {
                 </li>
               );
             })}
-            <input
-              type="text"
-              className="search-input"
-              placeholder="search for a movies"
-              onChange={handleChange}
-              value={searchTerm}
-            />
+
+            {location.pathname === '/' && (
+              <input
+                type="text"
+                className="search-input"
+                placeholder="search for a movies"
+                onChange={handleChange}
+                value={searchTerm}
+              />
+            )}
           </ul>
         </div>
       </header>
