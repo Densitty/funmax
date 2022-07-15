@@ -5,9 +5,19 @@ import {
   LOAD_MORE_MOVIES,
   MOVIE_TYPE,
   MOVIE_QUERIED_FOR,
-  SEARCH_RESULT
+  SEARCH_RESULT,
+  MOVIE_DETAILS,
+  CLEAR_MOVIE_DETAILS
 } from '../actionTypes';
-import { fetch_movie, search_movie } from '../../misc/movie_api';
+import {
+  fetch_movie,
+  get_movie_credits,
+  get_movie_details,
+  get_movie_images,
+  get_movie_reviews,
+  get_movie_videos,
+  search_movie
+} from '../../misc/movie_api';
 
 export const loadMovies = (category, pageNumber) => async (dispatch) => {
   try {
@@ -83,6 +93,22 @@ export const searchResult = (query) => async (dispatch) => {
   }
 };
 
+export const displayMovieDetails = (id) => async (dispatch) => {
+  try {
+    const res = await getMovieDetails(id);
+
+    dispatch({ type: MOVIE_DETAILS, payload: res });
+  } catch (err) {
+    if (err.response) {
+      dispatch({ type: LOAD_ERROR, payload: err.message });
+    }
+  }
+};
+
+export const clearMovieDetails = () => async (dispatch) => {
+  dispatch({ type: CLEAR_MOVIE_DETAILS });
+};
+
 export const incrementResponsePageNumber =
   (currentPage, totalPages) => async (dispatch) => {
     dispatch({ type: RESPONSE_PAGE, payload: { currentPage, totalPages } });
@@ -90,6 +116,28 @@ export const incrementResponsePageNumber =
 
 const getMovies = async (category, pageNumber) => {
   const res = await fetch_movie(category, pageNumber);
+
+  return res;
+};
+
+const getMovieDetails = async (id) => {
+  const movie_details = await get_movie_details(id);
+  const movie_reviews = await get_movie_reviews(id);
+  const movie_credits = await get_movie_credits(id);
+  const movie_images = await get_movie_images(id);
+  const movie_videos = await get_movie_videos(id);
+
+  const values = await Promise.all([
+    movie_details,
+    movie_reviews,
+    movie_credits,
+    movie_images,
+    movie_videos
+  ]);
+
+  const res = values.map((value) => {
+    return value.data;
+  });
 
   return res;
 };

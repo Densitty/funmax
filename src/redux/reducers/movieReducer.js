@@ -4,7 +4,9 @@ import {
   MOVIE_TYPE,
   RESPONSE_PAGE,
   MOVIE_QUERIED_FOR,
-  SEARCH_RESULT
+  SEARCH_RESULT,
+  MOVIE_DETAILS,
+  CLEAR_MOVIE_DETAILS
 } from '../actionTypes';
 
 const initialState = {
@@ -13,7 +15,8 @@ const initialState = {
   totalPages: 0,
   movie_type: 'now_playing',
   movieSearchedFor: '',
-  searchResult: []
+  searchResult: [],
+  movie_details: []
   // loading: false
 };
 
@@ -56,6 +59,18 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         searchResult: action.payload
+      };
+
+    case MOVIE_DETAILS:
+      return {
+        ...state,
+        movie_details: action.payload
+      };
+
+    case CLEAR_MOVIE_DETAILS:
+      return {
+        ...state,
+        movie_details: []
       };
 
     default:

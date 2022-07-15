@@ -4,7 +4,7 @@ import Tab from './Tab';
 import './Tabs.scss';
 
 const Tabs = (props) => {
-  console.log(props);
+  // console.log(props);
   const [activeTab, setActiveTab] = useState(props.children[0].props.label);
 
   const onClickTabItem = (tab) => {
@@ -29,7 +29,7 @@ const Tabs = (props) => {
       <div className="tab-content">
         {/* display the tab content based on the active tab */}
         {props.children.map((child) => {
-          console.log(child);
+          // console.log(child);
           if (child.props.label !== activeTab) {
             return undefined;
           }

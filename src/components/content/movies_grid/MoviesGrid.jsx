@@ -25,7 +25,7 @@ const MoviesGrid = () => {
     <>
       <section className="movies__grid">
         {movieData.map((movie, index) => {
-          console.log(movie);
+          // console.log(movie);
           return (
             <article key={index}>
               <div
