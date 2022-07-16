@@ -10,7 +10,7 @@ const Overview = () => {
   const [details] = useState(movieDetails[0]);
   const [credits] = useState(movieDetails[2]);
   const [items, setItems] = useState([]);
-  console.log(movieDetails);
+  // console.log(movieDetails);
 
   useEffect(() => {
     const detailItems = [

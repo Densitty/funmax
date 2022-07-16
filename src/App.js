@@ -9,6 +9,7 @@ import {
   // Switch
 } from 'react-router-dom';
 import Details from './components/content/details/Details';
+import Error from './components/error/Error';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/:id/:name/details" element={<Details />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   );
