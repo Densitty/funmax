@@ -16,7 +16,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   // find if user is on the home route to display header or not
-  const match = useMatch('/:id/name/details');
+  const match = useMatch('/:id/:name/details');
 
   const dispatch = useDispatch();
   const {
