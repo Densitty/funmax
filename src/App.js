@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable react/react-in-jsx-scope */
+import Header from './components/header/Header';
+import './App.scss';
+import Main from './components/main/Main';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+  // Switch
+} from 'react-router-dom';
+import Details from './components/content/details/Details';
+import Error from './components/error/Error';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/:id/:name/details" element={<Details />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </Router>
   );
 }
 
