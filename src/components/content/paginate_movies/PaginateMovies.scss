@@ -1,0 +1,29 @@
+.page__count {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 1rem 0.5rem;
+}
+
+.paginate__button {
+  text-transform: capitalize;
+  background-color: rgb(197, 34, 34);
+  color: #fff;
+  // margin: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
+  outline: none !important;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-right: 0.9rem;
+
+  &:last-child {
+    margin-left: 0;
+  }
+
+  &.disable {
+    background-color: #ccc;
+    color: #000;
+    cursor: none;
+    pointer-events: none;
+  }
+}

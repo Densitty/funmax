@@ -1,0 +1,34 @@
+.error {
+  color: #fff;
+  height: 100vh;
+  line-height: 1.5;
+  text-align: center;
+
+  &__header {
+    font-size: 10em;
+    text-align: center;
+  }
+
+  &__msg {
+    font-size: 2em;
+    text-align: center;
+    font-weight: 100;
+    margin-bottom: 9rem;
+  }
+
+  &__link {
+    margin: auto;
+    // display: block;
+    color: inherit;
+    font-size: 1.2rem;
+    border: 1px solid #efefef;
+    padding: 0.5em 1.5em;
+    text-align: center;
+    text-decoration: none !important;
+    border-radius: 5px;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}

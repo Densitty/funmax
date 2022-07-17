@@ -1,0 +1,32 @@
+.main__content {
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 1200px;
+  // background: red;
+  margin: 0 auto;
+}
+
+.movie__grid {
+  display: grid;
+  grid-template-areas: 'movie-type . paginate';
+  grid-template-columns: max-content 1fr max-content;
+  align-items: center;
+  grid-template-rows: 1fr;
+  margin-bottom: 3rem;
+  font-size: 18px;
+  color: #fff;
+  width: inherit;
+
+  &__type {
+    grid-area: movie-type;
+    text-align: left;
+    padding: 8px 25px;
+    align-self: center;
+  }
+
+  &__paginate {
+    grid-area: paginate;
+    text-align: right;
+    padding-right: 25px;
+  }
+}
